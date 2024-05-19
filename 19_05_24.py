@@ -452,7 +452,7 @@ fem_function_densidad_gr_cm3 = fem.Function(W,name= "densidad_grcm3")
 fem_function_array_psi= fem.Function(W, name="array_psi")
 fem_function_array_rdot= fem.Function(W,name="rdot")
 fem_function_array_vm = fem.Function(W,name="array_vm")
-fem_function_array_nu = fem.Function(W,name="array_vm")
+fem_function_array_nu = fem.Function(W,name="array_nu")
 #fem_function_densidad_material = fem.Function(W,"densidad_material")
 sigma_vm_h = Function(W,name="Von_misses")
 strain_ = Function(W,name="Strain")
@@ -1220,7 +1220,7 @@ for dmes in range(1, 2):
 
             
            
-            U = 0.5 * ufl.inner(sigma(uh2_in), strain(uh2_in)) * ufl.dx
+            U = 0.5 * ufl.inner(sigma(uh2_in),strain(uh2_in)) * ufl.dx
     
             # Ensamblar la energía de deformación ----<< 09/02/24 ---<<< OKß
             energy = fem.assemble_scalar(fem.form(U)) 
@@ -1934,7 +1934,7 @@ for dmes in range(1, 2):
 
             
            
-            U = 0.5 * ufl.inner(sigma(uh2_in), strain(uh2_in)) * ufl.dx
+            U = 0.5 * ufl.inner(sigma(uh2_in),strain(uh2_in)) * ufl.dx
     
             # Ensamblar la energía de deformación ----<< 09/02/24 ---<<< OKß
             energy = fem.assemble_scalar(fem.form(U)) 
@@ -2376,7 +2376,7 @@ for dmes in range(1, 2):
 
             
            
-            U = 0.5 * ufl.inner(sigma(uh2_in), strain(uh2_in)) * ufl.dx
+            U = 0.5 * ufl.inner(sigma(uh2_in),strain(uh2_in)) * ufl.dx
     
             # Ensamblar la energía de deformación ----<< 09/02/24 ---<<< OKß
             energy = fem.assemble_scalar(fem.form(U)) 
