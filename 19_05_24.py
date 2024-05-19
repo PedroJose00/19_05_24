@@ -690,7 +690,7 @@ solver.setOperators(A)
 # solve:
 
 # +
-uh = Function(V, name="desplazamiento - (mm)")
+uh = Function(V, name="desplazamiento_(mm)")
 
 # Set a monitor, solve linear system, and display the solver
 # configuration
