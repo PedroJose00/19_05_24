@@ -452,6 +452,7 @@ fem_function_densidad_gr_cm3 = fem.Function(W,name= "densidad_grcm3")
 fem_function_array_psi= fem.Function(W, name="array_psi")
 fem_function_array_rdot= fem.Function(W,name="rdot")
 fem_function_array_vm = fem.Function(W,name="array_vm")
+fem_function_array_nu = fem.Function(W,name="array_vm")
 #fem_function_densidad_material = fem.Function(W,"densidad_material")
 sigma_vm_h = Function(W,name="Von_misses")
 strain_ = Function(W,name="Strain")
@@ -460,6 +461,7 @@ value_sigma_h = Function(W,name="Stress")
 fem_function_modulo_E_f.x.array[:] = array_modulo_E_f
 fem_function_densidad_gr_cm3.x.array[:] = array_densidad_gr_cm3
 fem_function_densidad.x.array[:] = array_densidad_gr_cm3 *1e-6
+fem_function_array_nu.x.array[:] = array_nu
 
 #=======================================================================================   
 # ----------------------------------------------------------------------------------
@@ -485,8 +487,8 @@ f = ufl.as_vector((0.0, 0.0,-fem_function_densidad*9810))
 
 #=======================================================================================   
 # Al parecer tambien hay un error en el calculo de mu no es + sino -
-μ = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-λ = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+μ = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+λ = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
 # revisar el valor de lamnda pues al parecer hay un error  
 def σ(v):
     """Return an expression for the stress σ given a displacement field"""
@@ -499,8 +501,8 @@ def epsilon(u):
 
 V = functionspace(mesh, ("Lagrange", 1, (mesh.geometry.dim,)))
 u, v = ufl.TrialFunction(V), ufl.TestFunction(V)
-a = form(inner(σ(u), grad(v)) * dx)
-L = form(inner(f, v) * dx)
+a = form(inner(σ(u),grad(v))*dx)
+L = form(inner(f,v) * dx)
 
 
 
@@ -1012,8 +1014,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -1368,8 +1370,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -1724,8 +1726,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -2167,8 +2169,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -2579,8 +2581,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -3005,8 +3007,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -3441,8 +3443,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -3870,9 +3872,9 @@ for dmes in range(1, 2):
             print("#-------------------------------------------------------------------------------------------------")
 
     
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
              # revisar el valor de lamnda pues al parecer hay un error  
                                      
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
@@ -4265,8 +4267,8 @@ for dmes in range(1, 2):
 
             # Continúa con la parte de resolución de ecuaciones y condiciones de frontera...
             # Al parecer tambien hay un error en el calculo de mu no es + sino -
-            mu = fem_function_modulo_E_f / (2.0 * (1.0 + array_nu))
-            lame = fem_function_modulo_E_f * array_nu/ ((1.0 + array_nu) * (1.0 - 2.0 * array_nu)) 
+            mu = fem_function_modulo_E_f / (2.0 * (1.0 + fem_function_array_nu))
+            lame = fem_function_modulo_E_f * fem_function_array_nu/ ((1.0 + fem_function_array_nu) * (1.0 - 2.0 * fem_function_array_nu)) 
             # revisar el valor de lamnda pues al parecer hay un error  
                                     
             f = ufl.as_vector((0, 0, -fem_function_densidad * 9810 ))
